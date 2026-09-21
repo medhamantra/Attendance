@@ -1,0 +1,1397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>MEDHAMANTRA • Attendance</title>
+
+<meta name="theme-color" content="#D4A017">
+<meta name="description"
+content="MEDHAMANTRA Employee Attendance System">
+
+<link rel="manifest" href="manifest.json">
+
+<link rel="icon" href="logo.jpeg">
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root{
+    --gold:#D4A017;
+    --gold-light:#F5D76E;
+    --gold-dark:#B8860B;
+    --green:#166534;
+    --bg:#0f172a;
+    --card:#1e293b;
+}
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    min-height:100vh;
+    font-family:'Inter',system-ui,sans-serif;
+    background:
+        radial-gradient(circle at top,#3b2a08 0%,transparent 35%),
+        linear-gradient(135deg,#020617,#0f172a,#111827);
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+.card{
+    width:100%;
+    max-width:460px;
+    background:rgba(15,23,42,.96);
+    border-radius:28px;
+    overflow:hidden;
+    border:1px solid rgba(212,160,23,.35);
+    box-shadow:0 30px 80px rgba(0,0,0,.55);
+}
+
+.header{
+    padding:24px 20px;
+    text-align:center;
+    background:
+        linear-gradient(135deg,#111827,#1f2937);
+    border-bottom:1px solid rgba(212,160,23,.25);
+}
+
+.logo{
+    width:70px;
+    height:70px;
+    object-fit:contain;
+    background:#fff;
+    border-radius:18px;
+    padding:5px;
+    border:2px solid var(--gold);
+    box-shadow:0 0 30px rgba(212,160,23,.25);
+}
+
+.brand{
+    margin-top:12px;
+    font-size:27px;
+    font-weight:800;
+    letter-spacing:.5px;
+}
+
+.brand .medha{
+    color:var(--gold-light);
+}
+
+.brand .mantra{
+    color:white;
+}
+
+.subtitle{
+    margin-top:4px;
+    color:#94a3b8;
+    font-size:12px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+}
+
+.content{
+    padding:26px;
+}
+
+.status{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:14px 16px;
+    margin-bottom:22px;
+    background:#111827;
+    border-radius:16px;
+    border:1px solid #334155;
+    font-size:14px;
+}
+
+.status i{
+    font-size:18px;
+}
+
+label{
+    display:block;
+    margin-bottom:8px;
+    color:#94a3b8;
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:2px;
+}
+
+.field{
+    margin-bottom:20px;
+}
+
+select{
+    width:100%;
+    appearance:none;
+    background:#111827;
+    color:white;
+    border:1px solid #334155;
+    border-radius:16px;
+    padding:16px 48px 16px 16px;
+    font-size:16px;
+    outline:none;
+}
+
+select:focus{
+    border-color:var(--gold);
+}
+
+.select-wrap{
+    position:relative;
+}
+
+.select-wrap i{
+    position:absolute;
+    right:18px;
+    top:50%;
+    transform:translateY(-50%);
+    color:var(--gold);
+    pointer-events:none;
+}
+
+.camera-box{
+    display:flex;
+    justify-content:center;
+    margin:24px 0;
+}
+
+.camera-container{
+    position:relative;
+}
+
+video,
+#preview{
+    width:250px;
+    height:250px;
+    object-fit:cover;
+    border-radius:50%;
+    border:5px solid var(--gold);
+    background:#020617;
+    box-shadow:
+        0 0 0 8px rgba(212,160,23,.10),
+        0 15px 40px rgba(0,0,0,.4);
+}
+
+.camera-ring{
+    position:absolute;
+    inset:0;
+    border-radius:50%;
+    border:2px solid rgba(255,255,255,.25);
+    pointer-events:none;
+}
+
+.camera-text{
+    text-align:center;
+    color:#94a3b8;
+    font-size:12px;
+    margin-top:12px;
+}
+
+button{
+    width:100%;
+    border:0;
+    cursor:pointer;
+    transition:.25s;
+}
+
+button:hover{
+    transform:translateY(-2px);
+}
+
+.capture{
+    padding:16px;
+    border-radius:16px;
+    color:#111827;
+    font-size:16px;
+    font-weight:800;
+    background:linear-gradient(135deg,#D4A017,#F5D76E);
+    box-shadow:0 10px 30px rgba(212,160,23,.20);
+}
+
+.submit{
+    margin-top:12px;
+    padding:16px;
+    border-radius:16px;
+    color:white;
+    font-size:16px;
+    font-weight:700;
+    background:#166534;
+}
+
+.install{
+    display:none;
+    margin-top:12px;
+    padding:14px;
+    border-radius:16px;
+    color:#111827;
+    font-size:15px;
+    font-weight:700;
+    background:white;
+}
+
+.footer{
+    padding:18px;
+    text-align:center;
+    border-top:1px solid #334155;
+    color:#64748b;
+    font-size:11px;
+}
+
+#result{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.94);
+    z-index:9999;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:25px;
+}
+
+.result-box{
+    width:100%;
+    max-width:400px;
+    text-align:center;
+    padding:35px 25px;
+    background:#111827;
+    border-radius:28px;
+    border:1px solid rgba(212,160,23,.3);
+}
+
+.result-icon{
+    font-size:75px;
+    margin-bottom:20px;
+}
+
+.result-title{
+    font-size:28px;
+    font-weight:800;
+    margin-bottom:10px;
+}
+
+.result-details{
+    color:#cbd5e1;
+    font-size:16px;
+    line-height:1.8;
+}
+
+.done{
+    margin-top:25px;
+    padding:14px 30px;
+    width:auto;
+    background:white;
+    color:#111827;
+    border-radius:14px;
+    font-weight:700;
+}
+
+.hidden{
+    display:none!important;
+}
+
+@media(max-width:500px){
+
+    body{
+        padding:10px;
+    }
+
+    .content{
+        padding:20px;
+    }
+
+    video,
+    #preview{
+        width:220px;
+        height:220px;
+    }
+
+    .brand{
+        font-size:24px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+    <!-- HEADER -->
+    <div class="header">
+
+        <img
+            src="logo.jpeg"
+            alt="MEDHAMANTRA Logo"
+            class="logo"
+        >
+
+        <div class="brand">
+            <span class="medha">MEDHA</span><span class="mantra">MANTRA</span>
+        </div>
+
+        <div class="subtitle">
+            Employee Attendance System
+        </div>
+
+    </div>
+
+
+    <div class="content">
+
+        <!-- LOCATION STATUS -->
+        <div class="status">
+
+            <i id="statusIcon"
+               class="fa-solid fa-location-dot"
+               style="color:#facc15">
+            </i>
+
+            <span id="statusText">
+                Checking office location...
+            </span>
+
+        </div>
+
+
+        <!-- EMPLOYEE -->
+        <div class="field">
+
+            <label>EMPLOYEE</label>
+
+            <div class="select-wrap">
+
+                <select id="employee">
+                    <option value="">Select Name</option>
+                </select>
+
+                <i class="fa-solid fa-user"></i>
+
+            </div>
+
+        </div>
+
+
+        <!-- ACTION -->
+        <div class="field">
+
+            <label>ACTION</label>
+
+            <div class="select-wrap">
+
+                <select id="action">
+
+                    <option value="Entry">
+                        Entry
+                    </option>
+
+                    <option value="Tiffin Exit">
+                        Tiffin Exit
+                    </option>
+
+                    <option value="Tiffin Entry">
+                        Tiffin Entry
+                    </option>
+
+                    <option value="Exit">
+                        Exit
+                    </option>
+
+                </select>
+
+                <i class="fa-solid fa-arrow-right-arrow-left"></i>
+
+            </div>
+
+        </div>
+
+
+        <!-- CAMERA -->
+        <div class="camera-box">
+
+            <div class="camera-container">
+
+                <video
+                    id="video"
+                    autoplay
+                    playsinline>
+                </video>
+
+                <img
+                    id="preview"
+                    class="hidden"
+                    alt="Selfie Preview">
+
+                <div class="camera-ring"></div>
+
+            </div>
+
+        </div>
+
+        <div class="camera-text">
+            <i class="fa-solid fa-camera"></i>
+            Take your selfie
+        </div>
+
+
+        <!-- BUTTONS -->
+
+        <div style="margin-top:22px">
+
+            <button
+                class="capture"
+                onclick="capture()">
+
+                <i class="fa-solid fa-camera"></i>
+                &nbsp; CAPTURE SELFIE
+
+            </button>
+
+
+            <button
+                class="submit"
+                onclick="submitAttendance()">
+
+                <i class="fa-solid fa-check"></i>
+                &nbsp; SUBMIT ATTENDANCE
+
+            </button>
+
+
+            <!-- INSTALL APP -->
+
+            <button
+                id="installButton"
+                class="install"
+                onclick="installApp()">
+
+                <i class="fa-solid fa-download"></i>
+                &nbsp; INSTALL MEDHAMANTRA APP
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div class="footer">
+
+        <i class="fa-solid fa-shield-halved"></i>
+
+        &nbsp; Secure Attendance • Location Verified
+
+        <br>
+
+        MEDHAMANTRA
+
+    </div>
+
+</div>
+
+
+<!-- RESULT -->
+
+<div id="result">
+
+    <div class="result-box">
+
+        <div
+            id="resultIcon"
+            class="result-icon">
+        </div>
+
+        <div
+            id="resultTitle"
+            class="result-title">
+        </div>
+
+        <div
+            id="resultDetails"
+            class="result-details">
+        </div>
+
+        <button
+            class="done"
+            onclick="resetUI()">
+
+            Done
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<canvas
+    id="canvas"
+    class="hidden">
+</canvas>
+
+
+<script>
+
+/* =====================================================
+   MEDHAMANTRA APP CONFIGURATION
+   ===================================================== */
+
+const APP_CONFIG = {
+
+    institutionName: "MEDHAMANTRA",
+
+    logo: "logo.jpeg",
+
+    /*
+       PUT YOUR GOOGLE APPS SCRIPT WEB APP URL HERE
+    */
+
+    googleScriptUrl:
+    "YOUR_GOOGLE_APPS_SCRIPT_URL",
+
+    /*
+       OFFICE LOCATION
+    */
+
+    officeLat: 23.16885047334248,
+
+    officeLon: 88.09653289564828,
+
+    /*
+       Allowed distance in meters
+    */
+
+    radiusMeters: 100,
+
+    /*
+       EMPLOYEE LIST
+
+       Change names here.
+       App dropdown automatically updates.
+    */
+
+    employees: [
+
+        "Sagar Bala",
+
+        "Dipan",
+
+        "Jhuma Das",
+
+        "Nikunja Ghosh",
+
+        "Gust-1",
+
+        "guest-2"
+
+    ]
+
+};
+
+
+/* =====================================================
+   VARIABLES
+   ===================================================== */
+
+let imageData = "";
+
+let locationApproved = false;
+
+let currentStream = null;
+
+let deferredPrompt = null;
+
+
+const video =
+document.getElementById("video");
+
+const preview =
+document.getElementById("preview");
+
+const statusText =
+document.getElementById("statusText");
+
+const statusIcon =
+document.getElementById("statusIcon");
+
+const employeeSelect =
+document.getElementById("employee");
+
+
+/* =====================================================
+   LOAD EMPLOYEES
+   ===================================================== */
+
+function loadEmployees(){
+
+    employeeSelect.innerHTML =
+    '<option value="">Select Name</option>';
+
+    APP_CONFIG.employees.forEach(name => {
+
+        const option =
+        document.createElement("option");
+
+        option.value = name;
+
+        option.textContent = name;
+
+        employeeSelect.appendChild(option);
+
+    });
+
+}
+
+
+/* =====================================================
+   CAMERA
+   ===================================================== */
+
+async function initCamera(){
+
+    try{
+
+        const stream =
+        await navigator.mediaDevices.getUserMedia({
+
+            video:{
+                facingMode:"user",
+
+                width:{
+                    ideal:1280
+                },
+
+                height:{
+                    ideal:720
+                }
+
+            },
+
+            audio:false
+
+        });
+
+        currentStream = stream;
+
+        video.srcObject = stream;
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+        alert(
+            "Unable to access camera. Please allow camera permission."
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   LOCATION
+   ===================================================== */
+
+function checkLocation(){
+
+    if(!navigator.geolocation){
+
+        statusText.textContent =
+        "Geolocation not supported";
+
+        return;
+
+    }
+
+    statusText.textContent =
+    "Checking location...";
+
+
+    navigator.geolocation.getCurrentPosition(
+
+        position => {
+
+            const lat =
+            position.coords.latitude;
+
+            const lon =
+            position.coords.longitude;
+
+
+            const distance =
+            getDistance(
+
+                lat,
+                lon,
+
+                APP_CONFIG.officeLat,
+                APP_CONFIG.officeLon
+
+            );
+
+
+            if(distance <= APP_CONFIG.radiusMeters){
+
+                locationApproved = true;
+
+                statusText.textContent =
+                "Location Approved ✓";
+
+                statusIcon.className =
+                "fa-solid fa-location-dot";
+
+                statusIcon.style.color =
+                "#4ade80";
+
+            }
+
+            else{
+
+                locationApproved = false;
+
+                statusText.textContent =
+                "Outside Office Radius";
+
+                statusIcon.className =
+                "fa-solid fa-circle-exclamation";
+
+                statusIcon.style.color =
+                "#ef4444";
+
+            }
+
+        },
+
+        error => {
+
+            console.error(error);
+
+            locationApproved = false;
+
+            statusText.textContent =
+            "Location access denied";
+
+            statusIcon.className =
+            "fa-solid fa-circle-exclamation";
+
+            statusIcon.style.color =
+            "#ef4444";
+
+        },
+
+        {
+            enableHighAccuracy:true,
+
+            timeout:10000,
+
+            maximumAge:0
+        }
+
+    );
+
+}
+
+
+/* =====================================================
+   DISTANCE CALCULATOR
+   ===================================================== */
+
+function getDistance(
+    lat1,
+    lon1,
+    lat2,
+    lon2
+){
+
+    const R = 6371000;
+
+    const dLat =
+    (lat2-lat1)
+    * Math.PI / 180;
+
+    const dLon =
+    (lon2-lon1)
+    * Math.PI / 180;
+
+
+    const a =
+
+        Math.sin(dLat/2)
+        * Math.sin(dLat/2)
+
+        +
+
+        Math.cos(lat1*Math.PI/180)
+        *
+        Math.cos(lat2*Math.PI/180)
+        *
+        Math.sin(dLon/2)
+        *
+        Math.sin(dLon/2);
+
+
+    const c =
+    2 * Math.atan2(
+        Math.sqrt(a),
+        Math.sqrt(1-a)
+    );
+
+
+    return R*c;
+
+}
+
+
+/* =====================================================
+   CAPTURE SELFIE
+   ===================================================== */
+
+function capture(){
+
+    if(!video.srcObject){
+
+        alert("Camera is not ready.");
+
+        return;
+
+    }
+
+
+    const canvas =
+    document.getElementById("canvas");
+
+
+    canvas.width =
+    video.videoWidth || 720;
+
+    canvas.height =
+    video.videoHeight || 720;
+
+
+    const ctx =
+    canvas.getContext("2d");
+
+
+    ctx.drawImage(
+
+        video,
+
+        0,
+        0,
+
+        canvas.width,
+        canvas.height
+
+    );
+
+
+    imageData =
+    canvas.toDataURL(
+        "image/jpeg",
+        0.60
+    );
+
+
+    preview.src =
+    imageData;
+
+
+    preview.classList.remove("hidden");
+
+    video.classList.add("hidden");
+
+}
+
+
+/* =====================================================
+   SUBMIT ATTENDANCE
+   ===================================================== */
+
+async function submitAttendance(){
+
+    if(!locationApproved){
+
+        alert(
+            "❌ You must be inside the office location."
+        );
+
+        return;
+
+    }
+
+
+    if(!imageData){
+
+        alert(
+            "Please capture your selfie first."
+        );
+
+        return;
+
+    }
+
+
+    const employee =
+    employeeSelect.value;
+
+
+    const action =
+    document.getElementById("action").value;
+
+
+    if(!employee){
+
+        alert(
+            "Please select your name."
+        );
+
+        return;
+
+    }
+
+
+    if(
+        !APP_CONFIG.googleScriptUrl ||
+        APP_CONFIG.googleScriptUrl ===
+        "YOUR_GOOGLE_APPS_SCRIPT_URL"
+    ){
+
+        alert(
+            "Google Apps Script URL is not configured."
+        );
+
+        return;
+
+    }
+
+
+    const now =
+    new Date();
+
+
+    const time =
+    now.toLocaleTimeString(
+        "en-IN",
+        {
+            hour:"2-digit",
+            minute:"2-digit",
+            second:"2-digit"
+        }
+    );
+
+
+    const date =
+    now.toLocaleDateString(
+        "en-CA"
+    );
+
+
+    try{
+
+        const button =
+        document.querySelector(".submit");
+
+
+        button.disabled = true;
+
+        button.innerHTML =
+        '<i class="fa-solid fa-spinner fa-spin"></i> SUBMITTING...';
+
+
+        const response =
+        await fetch(
+            APP_CONFIG.googleScriptUrl,
+            {
+
+                method:"POST",
+
+                body:new URLSearchParams({
+
+                    employee:employee,
+
+                    action:action,
+
+                    time:time,
+
+                    date:date,
+
+                    image:imageData
+
+                })
+
+            }
+        );
+
+
+        const result =
+        await response.text();
+
+
+        showResult(
+
+            result.trim(),
+
+            employee,
+
+            action,
+
+            time
+
+        );
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+        showResult(
+            "ERROR",
+            employee,
+            action,
+            time
+        );
+
+    }
+
+    finally{
+
+        const button =
+        document.querySelector(".submit");
+
+
+        button.disabled = false;
+
+        button.innerHTML =
+        '<i class="fa-solid fa-check"></i> &nbsp; SUBMIT ATTENDANCE';
+
+    }
+
+}
+
+
+/* =====================================================
+   RESULT
+   ===================================================== */
+
+function showResult(
+    response,
+    employee,
+    action,
+    time
+){
+
+    const result =
+    document.getElementById("result");
+
+    const icon =
+    document.getElementById("resultIcon");
+
+    const title =
+    document.getElementById("resultTitle");
+
+    const details =
+    document.getElementById("resultDetails");
+
+
+    result.style.display =
+    "flex";
+
+
+    if(response === "NAME_ERROR"){
+
+        icon.textContent = "❌";
+
+        title.textContent =
+        "Name Error";
+
+        title.style.color =
+        "#ef4444";
+
+        details.textContent =
+        "Selected name does not match the attendance records.";
+
+    }
+
+
+    else if(response === "ENTRY_REQUIRED"){
+
+        icon.textContent = "⚠️";
+
+        title.textContent =
+        "Action Order";
+
+        title.style.color =
+        "#f59e0b";
+
+        details.textContent =
+        "First action must be Entry.";
+
+    }
+
+
+    else if(response === "ALREADY"){
+
+        icon.textContent = "⚠️";
+
+        title.textContent =
+        "Already Recorded";
+
+        title.style.color =
+        "#eab308";
+
+        details.innerHTML =
+        `${employee}<br>
+        Attendance already submitted today.`;
+
+    }
+
+
+    else if(response === "ERROR"){
+
+        icon.textContent = "❌";
+
+        title.textContent =
+        "Submission Failed";
+
+        title.style.color =
+        "#ef4444";
+
+        details.textContent =
+        "Unable to connect with Google Sheet. Please try again.";
+
+    }
+
+
+    else{
+
+        const hour =
+        new Date().getHours();
+
+        let greeting;
+
+
+        if(hour >= 5 && hour < 12){
+
+            greeting =
+            "🌅 Good Morning";
+
+        }
+
+        else if(hour >= 12 && hour < 15){
+
+            greeting =
+            "☀️ Good Noon";
+
+        }
+
+        else if(hour >= 15 && hour < 18){
+
+            greeting =
+            "🌇 Good Afternoon";
+
+        }
+
+        else if(hour >= 18 && hour < 22){
+
+            greeting =
+            "🌆 Good Evening";
+
+        }
+
+        else{
+
+            greeting =
+            "🌙 Good Night";
+
+        }
+
+
+        icon.textContent = "✅";
+
+        title.textContent =
+        greeting;
+
+        title.style.color =
+        "#4ade80";
+
+
+        details.innerHTML = `
+
+            Mr. <strong>${employee}</strong>
+
+            <br><br>
+
+            Your <strong>${action}</strong>
+            was submitted successfully.
+
+            <br><br>
+
+            🕒 ${time}
+
+        `;
+
+    }
+
+}
+
+
+/* =====================================================
+   RESET
+   ===================================================== */
+
+function resetUI(){
+
+    document.getElementById("result")
+    .style.display = "none";
+
+
+    preview.classList.add("hidden");
+
+    video.classList.remove("hidden");
+
+    imageData = "";
+
+    checkLocation();
+
+}
+
+
+/* =====================================================
+   PWA INSTALL
+   ===================================================== */
+
+window.addEventListener(
+    "beforeinstallprompt",
+    event => {
+
+        event.preventDefault();
+
+        deferredPrompt = event;
+
+        document.getElementById(
+            "installButton"
+        ).style.display = "block";
+
+    }
+);
+
+
+async function installApp(){
+
+    if(!deferredPrompt){
+
+        alert(
+            "App installation is not available in this browser. Use Chrome and open the website over HTTPS."
+        );
+
+        return;
+
+    }
+
+
+    deferredPrompt.prompt();
+
+
+    const choice =
+    await deferredPrompt.userChoice;
+
+
+    deferredPrompt = null;
+
+    document.getElementById(
+        "installButton"
+    ).style.display = "none";
+
+}
+
+
+/* =====================================================
+   SERVICE WORKER
+   ===================================================== */
+
+if(
+    "serviceWorker"
+    in navigator
+){
+
+    window.addEventListener(
+        "load",
+        () => {
+
+            navigator.serviceWorker
+            .register("sw.js")
+            .catch(error =>
+                console.error(
+                    "Service Worker Error:",
+                    error
+                )
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   INITIALIZE
+   ===================================================== */
+
+window.addEventListener(
+    "load",
+    () => {
+
+        loadEmployees();
+
+        initCamera();
+
+        checkLocation();
+
+    }
+);
+
+
+/* =====================================================
+   STOP CAMERA
+   ===================================================== */
+
+window.addEventListener(
+    "beforeunload",
+    () => {
+
+        if(currentStream){
+
+            currentStream
+            .getTracks()
+            .forEach(
+                track =>
+                track.stop()
+            );
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>
